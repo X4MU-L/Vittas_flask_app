@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 const OutletWrapper = styled.section`
 	margin: 80px auto 10px;
-	padding: 0 10px;
 	font-size: var(--size-sm);
 	display: flex;
 	flex-direction: column;

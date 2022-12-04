@@ -1,1 +1,1 @@
-export { default as Layout } from "./outlets";
+export { default as Layout } from "./components";
