@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const NavbarWrapper = styled.nav`
 	position: fixed;
+	z-index: 10;
 	top: 0;
 	height: 80px;
 	width: 100%;
