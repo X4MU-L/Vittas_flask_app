@@ -4,6 +4,7 @@ const StudentsHeaderWrapper = styled.header`
 	width: 100%;
 	gap: var(--gap);
 	display: flex;
+
 	flex-direction: column;
 	font-size: var(--size-md);
 	background: var(--main-bg);
@@ -12,10 +13,9 @@ const StudentsHeaderWrapper = styled.header`
 	padding: 20px;
 	justify-content: center;
 	@media (max-width: 690px) {
-		height: 100vh;
+		height: calc(100vh - 44px);
 		padding: 30px;
 		justify-content: stretch;
-
 		& > a {
 			margin: auto 0 0;
 		}
@@ -23,8 +23,12 @@ const StudentsHeaderWrapper = styled.header`
 `;
 const StudentsHeader = styled.h1`
 	max-width: 780px;
-
+	line-height: 40px;
 	text-align: center;
+	@media (max-width: 690px) {
+		font-size: 2rem;
+		line-height: 30px;
+	}
 `;
 
 const StudentParagraph = styled.p`
@@ -32,6 +36,10 @@ const StudentParagraph = styled.p`
 
 	font-size: var(--size-sm);
 	text-align: center;
+	@media (max-width: 690px) {
+		font-size: 1.2rem;
+		line-height: 18px;
+	}
 `;
 
 const Button = styled.button`
@@ -65,8 +73,41 @@ const StudentHeadingWrapper = styled.tr`
 		background: rgba(176, 176, 176, 0.2);
 	}
 `;
-const StudentWrapper = styled(StudentHeadingWrapper)``;
+const StudentWrapper = styled(StudentHeadingWrapper)`
+	position: relative;
+	transition: all 0.5s ease-in-out;
+	&:hover > button {
+		visibility: visible;
+		opacity: 1;
+	}
+	&.deleted {
+		transform: translateX(-101%);
+	}
+`;
 
+const DeleteButton = styled(Button)`
+	position: absolute;
+	visibility: hidden;
+	opacity: 0;
+	top: 50%;
+	right: 2%;
+	width: 40px;
+	transform: translateY(-50%);
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.5s ease-in-out;
+	& > img {
+		width: 60%;
+		height: 60%;
+	}
+	@media (max-width: 900px) {
+		width: 20px;
+		height: 20px;
+	}
+`;
 const ImageWrapper = styled.div`
 	width: 70px;
 	height: 70px;
@@ -76,6 +117,10 @@ const ImageWrapper = styled.div`
 	& > img {
 		object-fit: cover;
 		border-radius: 50%;
+	}
+	@media (max-width: 900px) {
+		width: 50px;
+		height: 50px;
 	}
 `;
 
@@ -90,6 +135,10 @@ const StudentItems = styled.th`
 
 	color: #091540;
 	padding-bottom: 20px;
+	@media (max-width: 900px) {
+		font-size: 1.4rem;
+		line-height: 18px;
+	}
 `;
 const CSpan = styled.span`
 	color: var(--border-color);
@@ -104,6 +153,10 @@ const StudentItemsz = styled.td`
 	/* Primary colour600 */
 
 	color: #091540;
+	@media (max-width: 900px) {
+		font-size: 1.2rem;
+		line-height: 18px;
+	}
 `;
 export {
 	StudentsHeaderWrapper,
@@ -117,4 +170,5 @@ export {
 	StudentItems,
 	ImageWrapper,
 	StudentItemsz,
+	DeleteButton,
 };

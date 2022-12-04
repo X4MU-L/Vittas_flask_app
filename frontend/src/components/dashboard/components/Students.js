@@ -11,17 +11,20 @@ import {
 	StudentItems,
 	StudentItemsz,
 	ImageWrapper,
+	DeleteButton,
 } from "./students.style";
 import { _STUDENTHEADING } from "./constants";
 import LOADINGIMAGE from "../assets/loading.gif";
+import DELETEICON from "../assets/delete.svg";
 
 import axios from "axios";
 import useScreenSize from "../../hooks/useScreenSize";
 import { Link } from "react-router-dom";
 const AllStudents = () => {
-	const url = "http://localhost:8000/students";
+	const client = axios.create({ baseURL: "http://localhost:8000/" });
 	const { screenWidth } = useScreenSize();
 	const mobile = screenWidth <= 690;
+	/*slice the heading to 3 headings on small screen */
 	const studentHeader = () =>
 		mobile ? _STUDENTHEADING.slice(0, 3) : _STUDENTHEADING;
 	const [data, setData] = useState({
@@ -32,19 +35,47 @@ const AllStudents = () => {
 		error: null,
 	});
 
-	const getStudents = async (url) => {
+	const getStudents = async () => {
 		try {
-			const res = await axios.get(url);
+			const res = await client.get("students");
+			/*speard available data and update students and loading */
 			setData({ ...data, students: res.data, loading: false });
 		} catch (error) {
+			/*speard available data and update error and loading */
 			this.setState({ ...data, error: error, loading: false });
 		}
 	};
-
+	/*On mount get students data */
 	useEffect(() => {
-		getStudents(url);
+		getStudents();
 	}, []);
 
+	/*This function sends a delete request with the student_id to the api */
+	const deleteStudent = async (student_id) => {
+		try {
+			const res = await client.delete(`students/${student_id}`).then(() => {
+				/*set a get request to refresh the page*/
+				getStudents();
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	/*manipulate and remove the student data from the dom*/
+	const deleteData = (student_id) => {
+		/*get parent container */
+		const studentContainer = document.getElementById(`${student_id}`);
+		const confirmed = window.confirm(
+			`are you sure you want to delete student with Reg No. ${student_id}?`
+		);
+		if (confirmed) {
+			/*On comfrim add a class to the parentcontainer */
+			studentContainer.classList.add("deleted");
+			/*send a async delete request */
+			deleteStudent(student_id);
+		}
+	};
 	const renderLoading = () => {
 		return (
 			<div
@@ -94,20 +125,22 @@ const AllStudents = () => {
 					</StudentHeadingWrapper>
 
 					{data.students.map((student) => {
-						const { Reg_no, img, name, age, gender, Dept } = student;
-
+						const { id, img, name, age, gender, Dept } = student;
 						return (
-							<StudentWrapper key={Reg_no}>
+							<StudentWrapper key={id} id={id}>
 								<StudentItemsz>
 									<ImageWrapper>
 										<img src={img} alt={name} />
 									</ImageWrapper>
 								</StudentItemsz>
-								<StudentItemsz>{Reg_no}</StudentItemsz>
+								<StudentItemsz>{id}</StudentItemsz>
 								<StudentItemsz>{name}</StudentItemsz>
 								{mobile ? "" : <StudentItemsz>{age}</StudentItemsz>}
 								{mobile ? "" : <StudentItemsz>{gender}</StudentItemsz>}
 								{mobile ? "" : <StudentItemsz>{Dept}</StudentItemsz>}
+								<DeleteButton onClick={() => deleteData(id)}>
+									<img src={DELETEICON} alt="delete icon" />
+								</DeleteButton>
 							</StudentWrapper>
 						);
 					})}
