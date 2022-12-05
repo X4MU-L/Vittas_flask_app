@@ -16,6 +16,7 @@ import {
 import { _STUDENTHEADING } from "./constants";
 import LOADINGIMAGE from "../assets/loading.gif";
 import DELETEICON from "../assets/delete.svg";
+import DEFAULTIMAGE from "../assets/nopics.webp";
 
 import axios from "axios";
 import useScreenSize from "../../hooks/useScreenSize";
@@ -151,11 +152,12 @@ const AllStudents = () => {
 
 					{data.students.map((student) => {
 						const { id, img, name, age, gender, Dept } = student;
+						const image = img ? img : DEFAULTIMAGE;
 						return (
 							<StudentWrapper key={id} id={id}>
 								<StudentItemsz>
 									<ImageWrapper>
-										<img src={img} alt={name} />
+										<img src={image} alt={name} />
 									</ImageWrapper>
 								</StudentItemsz>
 								<StudentItemsz>{id}</StudentItemsz>
