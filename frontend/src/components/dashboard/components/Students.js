@@ -22,7 +22,7 @@ import axios from "axios";
 import useScreenSize from "../../hooks/useScreenSize";
 import { Link } from "react-router-dom";
 const AllStudents = () => {
-	const client = axios.create({ baseURL: "http://localhost:8000/" });
+	const client = axios.create({ baseURL: "http://localhost:5000/" });
 	const { screenWidth } = useScreenSize();
 	const mobile = screenWidth <= 690;
 	/*slice the heading to 3 headings on small screen */
@@ -38,9 +38,11 @@ const AllStudents = () => {
 
 	const getStudents = async () => {
 		try {
-			const res = await client.get("students");
+			const { data } = await client.get("students");
+			const { students } = data;
+			console.log(data);
 			/*speard available data and update students and loading */
-			setData({ ...data, students: res.data, loading: false });
+			setData({ ...data, students: students, loading: false });
 		} catch (error) {
 			/*speard available data and update error and loading */
 			this.setState({ ...data, error: error, loading: false });

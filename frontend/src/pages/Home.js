@@ -11,7 +11,6 @@ const Home = () => {
 				<Route index element={<Students />} />
 				<Route path="create" element={<StudentForm />} />
 				<Route path="search" element={<div>search</div>} />
-				<Route path="top-students" element={<div>top rated</div>} />
 			</Route>
 		</Routes>
 	);
