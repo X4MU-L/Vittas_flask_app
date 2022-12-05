@@ -99,6 +99,31 @@ const AllStudents = () => {
 		);
 	};
 
+	const renderNostudents = () => {
+		return (
+			<div>
+				<StudentsHeaderWrapper>
+					<StudentsHeader>
+						<CSpan>C</CSpan>reate, <CSpan>R</CSpan>ead, <CSpan>U</CSpan>pdate
+						and <CSpan>D</CSpan>elete Students From our <CSpan>Database</CSpan>
+					</StudentsHeader>
+					<StudentParagraph>
+						This is a the test project for Vittas International second phase
+						interview this Project is suppose to perform CRUD operation of
+						students records and also perform a cron in the server to delete all
+						records from the database every 10 mins
+					</StudentParagraph>
+					<Link to="/create">
+						<Button>Create Student</Button>
+					</Link>
+				</StudentsHeaderWrapper>
+				<StudentParagraph style={{ margin: "40px auto", fontSize: "30px" }}>
+					Oops!! No Records yet.. do you want to create one?
+				</StudentParagraph>
+			</div>
+		);
+	};
+
 	const renderStudents = () => {
 		return (
 			<div>
@@ -149,6 +174,10 @@ const AllStudents = () => {
 		);
 	};
 
-	return data.loading ? renderLoading() : renderStudents();
+	return data.loading
+		? renderLoading()
+		: data.students.length === 0
+		? renderNostudents()
+		: renderStudents();
 };
 export default AllStudents;
